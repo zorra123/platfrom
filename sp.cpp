@@ -120,7 +120,7 @@ void sp::ParseCommand(pid& pid){
 		//Serial.println(tmp);
 		tmp="";
 	}
-	pid.compute(id,instr,par);
+	pid.initialization(id,instr,par);
 
 }
 unsigned int sp::hexToDec(String hexString) {

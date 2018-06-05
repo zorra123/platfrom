@@ -14,19 +14,24 @@
 class pid
 {
 public:
-	volatile int rpmcountr;
-	int rpmr;
-
-	volatile int rpmcountl;
-	int rpml;
-	
 	double Setpointl, Inputl, Outputl;
 	double Setpointr, Inputr, Outputr;
 	
+	bool flagl;	
+	bool flagr;
+private:
+
+	volatile int rpmcountr;
+	int rpmr,rpmrlast;
+	
+	volatile int rpmcountl;
+	int rpml,rpmllast;
+public:
 	pid();
-	void compute(byte,byte,byte);
-/*private:
-	volatile int rpmcount = 0;//see http://arduino.cc/en/Reference/Volatile
-	int rpm = 0;
-	unsigned long lastmillis = 0;*/
+	void initialization(byte,byte,byte);
+	void computeSpeed();
+	void print(int *);
+	void rpm_fanl();
+	void rpm_fanr();
+	void write(byte);
 };

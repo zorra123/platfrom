@@ -2,19 +2,70 @@
 
 pid::pid()
 {
-	Setpointl = 4;
+	Setpointl = 6;
 	Inputl = 25;
 	rpmcountl = 0;
 	rpml = 0;
+	flagl = 0;
+	rpmllast = 0;
 	
-	Setpointr = 4;
-	Inputr = 18;
+	Setpointr = 6;
+	Inputr = 22;
 	rpmcountr = 0;
 	rpmr = 0;
+	flagr = 0;
+	rpmrlast = 0;
 }
-void pid::compute(byte id, byte instr, byte par)
+void pid::rpm_fanl()
 {
-  
+	rpmcountl++;
+}
+void pid::rpm_fanr()
+{
+	rpmcountr++;
+}
+void pid::computeSpeed()
+{
+	rpmllast = rpml;
+	rpml = rpmcountl * 1.25;
+	rpmcountl = 0;
+	
+	rpmrlast = rpmr;
+	rpmr = rpmcountr * 1.25;
+	rpmcountr = 0;
+	
+	Inputl = rpml;
+	Inputr = rpmr;
+	
+	if(rpml == Setpointl&&(rpml-rpmllast<1||rpml-rpmllast>-1)) flagl = 0;
+	if(rpmr == Setpointr&&(rpmr-rpmrlast<1||rpmr-rpmrlast>-1)) flagr = 0;
+}
+void pid::print(int *rpm)
+{
+	rpm[0] = Inputl;
+	rpm[1] = Inputr;
+}
+void pid::write(byte par)
+{
+	switch (par){
+		case 1:			
+			analogWrite(PWML,Outputl);
+			rpmcountl = 0;
+		break;
+		case 2:
+			analogWrite(PWML,Outputr);
+			rpmcountr = 0;
+		break;
+		case 3:
+			analogWrite(PWML,Outputl);
+			analogWrite(PWMR,Outputr);
+			rpmcountl = 0; // Restart the RPM counter
+			rpmcountr = 0; // Restart the RPM counter
+		break;
+	}
+}
+void pid::initialization(byte id, byte instr, byte par)
+{
 	switch(id){
 		case 1://на левый движок
 			switch(instr){
@@ -24,7 +75,9 @@ void pid::compute(byte id, byte instr, byte par)
 					digitalWrite(INAL, LOW);
 					digitalWrite(INBL, HIGH); 
 					digitalWrite(ENL, HIGH);
+					
 					Setpointl = par;
+					flagl =1;
 				break;
 			}
 		
@@ -38,6 +91,7 @@ void pid::compute(byte id, byte instr, byte par)
 					digitalWrite(ENR, HIGH);
 					
 					Setpointr = par;
+					flagr = 1;
 				break;
 			}
 		
@@ -48,37 +102,49 @@ void pid::compute(byte id, byte instr, byte par)
 					digitalWrite(INAR, HIGH);
 					digitalWrite(INBR, LOW); 
 					digitalWrite(ENR, HIGH);
-					Setpointl = par;
 					
-					digitalWrite(INAL, HIGH); 
-					digitalWrite(INBL, LOW); 
+					Setpointl = par;
+					flagl = 1;
+					
+					digitalWrite(INAL, LOW); 
+					digitalWrite(INBL, HIGH); 
 					digitalWrite(ENL, HIGH);
+					
 					Setpointr = par;
+					flagr = 1;
 				break;
 				case 2://назад
 					digitalWrite(INAR, LOW);
 					digitalWrite(INBR, HIGH); 
 					digitalWrite(ENR, HIGH);
+					
 					Setpointl = par;
+					flagl = 1;
 					
 					digitalWrite(INAL, HIGH); 
 					digitalWrite(INBL, LOW); 
 					digitalWrite(ENL, HIGH);
+					
 					Setpointr = par;
+					flagr =1;
 				break;
 				case 3://стоп
-					digitalWrite(INAR, LOW);    
-					digitalWrite(INBR, LOW); 
-					digitalWrite(ENR, LOW);
-					Setpointr = 0;
 					
 					digitalWrite(INAL, LOW);     
 					digitalWrite(INBL, LOW); 
 					digitalWrite(ENL, LOW);
+					
 					Setpointl = 0;
+					flagl = 0;
+					
+					digitalWrite(INAR, LOW);    
+					digitalWrite(INBR, LOW); 
+					digitalWrite(ENR, LOW);
+					
+					Setpointr = 0;
+					flagr = 0;
 				break;
 			}
 		break;
 	}
-	
 }
