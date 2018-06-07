@@ -5,8 +5,8 @@ unsigned long lastmillis = 0;
 sp Sp;
 pid pid;
 //double Outputl,Inputl,Setpointl;
-PID myPIDL(&pid.Inputl, &pid.Outputl, &pid.Setpointl,0.4, 30, 0, DIRECT);//создаем ПИД-регулятор
-PID myPIDR(&pid.Inputr, &pid.Outputr, &pid.Setpointr,0.4, 16, 0, DIRECT);//создаем ПИД-регулятор
+PID myPIDL(&pid.Inputl, &pid.Outputl, &pid.Setpointl,0.4, 20, 0, DIRECT);//создаем ПИД-регулятор
+PID myPIDR(&pid.Inputr, &pid.Outputr, &pid.Setpointr,0.4, 20, 0, DIRECT);//создаем ПИД-регулятор
 					
 void setup() {
     Serial.begin(9600); 
@@ -72,8 +72,12 @@ void loop() {
 		pid.rpmcountr = 0;
 */
 		pid.computeSpeed();
-		int rpm[2];
+		byte rpm[2];
 		pid.print(rpm);
+		
+		String send = " "+Sp.decToHex(rpm[0])+" "+Sp.decToHex(rpm[1])+" ";
+		
+		Sp.Send(send);
 		
 		attachInterrupt(2, rpm_fanl, FALLING);
 		attachInterrupt(3, rpm_fanl, FALLING);
@@ -101,7 +105,7 @@ Serial.println(pid.flagr);*/
 				Serial.print("pid.Inputr ");	
 				Serial.println(rpm[1]);
 			}	
-		}
+		} 
 		else if(pid.flagl == 1&&pid.flagr == 0)// пид работает для левого двигателя
 		{
 			if(myPIDL.Compute())//считаем выходной сигнал ПИД-регулятора

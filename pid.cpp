@@ -3,7 +3,7 @@
 pid::pid()
 {
 	Setpointl = 6;
-	Inputl = 25;
+	Inputl = 23;
 	rpmcountl = 0;
 	rpml = 0;
 	flagl = 0;
@@ -37,10 +37,10 @@ void pid::computeSpeed()
 	Inputl = rpml;
 	Inputr = rpmr;
 	
-	if(rpml == Setpointl&&(rpml-rpmllast<1||rpml-rpmllast>-1)) flagl = 0;
-	if(rpmr == Setpointr&&(rpmr-rpmrlast<1||rpmr-rpmrlast>-1)) flagr = 0;
+	//if(rpml == Setpointl&&(rpml-rpmllast<1||rpml-rpmllast>-1)) flagl = 0;
+	//if(rpmr == Setpointr&&(rpmr-rpmrlast<1||rpmr-rpmrlast>-1)) flagr = 0;
 }
-void pid::print(int *rpm)
+void pid::print(byte *rpm)
 {
 	rpm[0] = Inputl;
 	rpm[1] = Inputr;

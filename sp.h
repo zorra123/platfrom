@@ -19,13 +19,15 @@ private:
 	
 public:
 	sp();
-	unsigned int hexToDec(String hexString);
 	void ParseCommand(pid&);
 	void sp_ResetAll();
 	void sp_Read();
+	void Send(String);
+	unsigned int hexToDec(String);
+	String decToHex(byte);
 	
 private:
 	void sp_Reset();
-	void sp_Send(String data);
+
 	
 };

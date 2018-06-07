@@ -143,3 +143,16 @@ unsigned int sp::hexToDec(String hexString) {
   
 	return decValue;
 }
+String sp::decToHex(byte decValue) {
+  
+  String hexString = String(decValue, HEX);
+  hexString.toUpperCase();
+  if(hexString.length()==2) hexString = "0x" + hexString;
+  else hexString = "0x0" + hexString;
+  return hexString;
+}
+
+void sp::Send(String data){
+	String send = sp_startMarker+data+sp_stopMarker;
+	Serial.println(send);
+}

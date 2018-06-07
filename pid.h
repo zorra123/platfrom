@@ -30,7 +30,7 @@ public:
 	pid();
 	void initialization(byte,byte,byte);
 	void computeSpeed();
-	void print(int *);
+	void print(byte *);
 	void rpm_fanl();
 	void rpm_fanr();
 	void write(byte);
