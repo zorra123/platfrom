@@ -22,12 +22,12 @@ public:
 	void ParseCommand(pid&);
 	void sp_ResetAll();
 	void sp_Read();
-	void Send(String);
-	unsigned int hexToDec(String);
-	String decToHex(byte);
+	void Send(byte *);
 	
 private:
 	void sp_Reset();
+	unsigned int hexToDec(String);
+	String decToHex(byte);
 
 	
 };

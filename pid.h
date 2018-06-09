@@ -20,7 +20,6 @@ public:
 	bool flagl;	
 	bool flagr;
 private:
-
 	volatile int rpmcountr;
 	int rpmr,rpmrlast;
 	

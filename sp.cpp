@@ -152,7 +152,8 @@ String sp::decToHex(byte decValue) {
   return hexString;
 }
 
-void sp::Send(String data){
-	String send = sp_startMarker+data+sp_stopMarker;
+void sp::Send(byte *data){
+	String send = sp_startMarker+" "+decToHex(data[0])+" "+decToHex(data[1])+sp_stopMarker;
+	//String send = sp_startMarker+data+sp_stopMarker;
 	Serial.println(send);
 }

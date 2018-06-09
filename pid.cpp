@@ -3,17 +3,17 @@
 pid::pid()
 {
 	Setpointl = 6;
-	Inputl = 23;
+	Inputl = 0;
 	rpmcountl = 0;
 	rpml = 0;
-	flagl = 0;
+	flagl = 1;
 	rpmllast = 0;
 	
 	Setpointr = 6;
-	Inputr = 22;
+	Inputr = 0;
 	rpmcountr = 0;
 	rpmr = 0;
-	flagr = 0;
+	flagr = 1;
 	rpmrlast = 0;
 }
 void pid::rpm_fanl()
@@ -27,11 +27,11 @@ void pid::rpm_fanr()
 void pid::computeSpeed()
 {
 	rpmllast = rpml;
-	rpml = rpmcountl * 1.25;
+	rpml = rpmcountl * 2.5;
 	rpmcountl = 0;
 	
 	rpmrlast = rpmr;
-	rpmr = rpmcountr * 1.25;
+	rpmr = rpmcountr * 2.5;
 	rpmcountr = 0;
 	
 	Inputl = rpml;
