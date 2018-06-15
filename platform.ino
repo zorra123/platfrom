@@ -39,9 +39,9 @@ void setup() {
 	myPIDR.SetMode(AUTOMATIC);
 
 	
-    timer_init_ISR_2Hz(TIMER_DEFAULT);
+    timer_init_ISR_2Hz(TIMER_DEFAULT);//инициализация таймера на частоте 2Hz
 }
-void timer_handle_interrupts(int timer) {
+void timer_handle_interrupts(int timer) {//таймер на частоте 2Hz
 	
 	detachInterrupt(2);
 	detachInterrupt(3);
@@ -52,12 +52,13 @@ void timer_handle_interrupts(int timer) {
     unsigned long _time = micros();
     unsigned long _period = _time - prev_time;
     prev_time = _time;	
-
-	pid.computeSpeed();
-	byte rpm[2];
-	pid.print(rpm);
 	
-	Sp.Send(rpm);
+	byte rpm[2]; 
+	pid.computeSpeed(rpm); // вычисление rpm
+	
+	//pid.print(rpm);
+	
+	Sp.Send(rpm); //отправка пакета
 		
 	attachInterrupt(2, rpm_fanl, FALLING);
 	attachInterrupt(3, rpm_fanl, FALLING);

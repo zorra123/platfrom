@@ -88,6 +88,7 @@ void sp::sp_Read()
 	}
 }
 void sp::ParseCommand(pid& pid){
+	//Serial.println("1");
 	String sp_dataString_clear = "";  
 	String tmp = "";
 	for(int i =0;i<sp_dataString.length();i++){
@@ -120,6 +121,7 @@ void sp::ParseCommand(pid& pid){
 		//Serial.println(tmp);
 		tmp="";
 	}
+	if(instr==3) par =0;
 	pid.initialization(id,instr,par);
 
 }

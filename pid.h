@@ -28,8 +28,8 @@ private:
 public:
 	pid();
 	void initialization(byte,byte,byte);
-	void computeSpeed();
-	void print(byte *);
+	void computeSpeed(byte *);
+	//void print(byte *);
 	void rpm_fanl();
 	void rpm_fanr();
 	void write(byte);
