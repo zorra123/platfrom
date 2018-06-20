@@ -15,6 +15,8 @@ pid::pid()
 	rpmr = 0;
 	flagr = 1;
 	rpmrlast = 0;
+	
+	Const = (60/48)*2;
 }
 void pid::rpm_fanl()
 {
@@ -27,11 +29,11 @@ void pid::rpm_fanr()
 void pid::computeSpeed(byte *rpm)
 {
 	rpmllast = rpml;
-	rpml = rpmcountl * 2.5;
+	rpml = rpmcountl * Const;
 	rpmcountl = 0;
 	
 	rpmrlast = rpmr;
-	rpmr = rpmcountr * 2.5;
+	rpmr = rpmcountr * Const;
 	rpmcountr = 0;
 	
 	Inputl = rpml;

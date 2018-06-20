@@ -12,15 +12,19 @@ sp::sp()
 void sp::sp_ResetAll()
 {
 	sp_dataString = "";           // Обнуляем буфер приема данных
-	sp_Reset();                   // Частичный сброс протокола
+	sp_startMarkerStatus = 0;     // Сброс флага маркера начала пакета
+	sp_stopMarkerStatus = 0;      // Сброс флага маркера конца пакета
+	sp_dataLength = 0;            // Сброс флага принимаемых данных
+	sp_packetAvailable = false;   // Сброс флага завершения приема пакета
+	//sp_Reset();                   // Частичный сброс протокола
 }
-void sp::sp_Reset()
+/*void sp::sp_Reset()
 {
 	sp_startMarkerStatus = 0;     // Сброс флага маркера начала пакета
 	sp_stopMarkerStatus = 0;      // Сброс флага маркера конца пакета
 	sp_dataLength = 0;            // Сброс флага принимаемых данных
 	sp_packetAvailable = false;   // Сброс флага завершения приема пакета
-}
+}*/
 void sp::sp_Read()
 {
 	while(Serial.available() && !sp_packetAvailable)            // Пока в буфере есть что читать и пакет не является принятым

@@ -17,9 +17,14 @@ public:
 	double Setpointl, Inputl, Outputl;
 	double Setpointr, Inputr, Outputr;
 	
-	bool flagl;	
+	bool flagl;
 	bool flagr;
 private:
+	byte Const;			/*константа для вычисления rpm, 
+находится след образом: (60/n)*k, где n - кол-во магнитов, у нас их 48.
+k - кол-во вызовов за сек, регулируется в основном фале строкой timer_init_ISR_2Hz(),
+поскольку частота 2Hz, это 2 вызова в сек.*/
+
 	volatile int rpmcountr;
 	int rpmr,rpmrlast;
 	
